@@ -1,3 +1,4 @@
+import ThemeSwitcher from "@/lib/theme";
 import ConnectButton from "@/lib/wagmi/wallet-modal";
 import Link from "next/link";
 
@@ -8,7 +9,10 @@ const Navbar = () => {
         <h1 className=" text-2xl font-mono cursor-pointer">Charity</h1>
       </Link>
 
-      <ConnectButton />
+      <div className=" flex items-center gap-4">
+        <ThemeSwitcher />
+        <ConnectButton />
+      </div>
     </nav>
   );
 };
