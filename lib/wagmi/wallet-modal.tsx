@@ -3,9 +3,9 @@
 import { Button } from "@/components/ui/button";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useAccount } from "wagmi";
-import Logo from "@/components/layout/logo";
 import { addressShortener } from "@/utils/utils";
 import React from "react";
+import Logo from "@/components/layout/logo";
 
 export default function ConnectButton() {
   const { open } = useWeb3Modal();
@@ -16,14 +16,14 @@ export default function ConnectButton() {
       {address ? (
         <Button
           onClick={() => open()}
-          className=" flex items-center rounded-[20px]"
-          style={{ gap: "0.5rem" }}
+          className=" flex items-center"
+          style={{ gap: "0.5rem", borderRadius: "30px" }}
         >
           <Logo />
           <span>{addressShortener(address, 4)}</span>
         </Button>
       ) : (
-        <Button className=" rounded-[20px]" onClick={() => open()}>
+        <Button onClick={() => open()} style={{ borderRadius: "30px" }}>
           Connect Wallet
         </Button>
       )}
