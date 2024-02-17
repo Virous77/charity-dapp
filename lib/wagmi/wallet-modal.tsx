@@ -1,63 +1,32 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Separator } from "@/components/ui/separator";
-import { Wallet } from "lucide-react";
-import { Connector, useConnect } from "wagmi";
+import { useWeb3Modal } from "@web3modal/wagmi/react";
+import { useAccount } from "wagmi";
+import Logo from "@/components/layout/logo";
+import { addressShortener } from "@/utils/utils";
+import React from "react";
 
-const WalletModal = () => {
-  const { connectors, connect } = useConnect();
+export default function ConnectButton() {
+  const { open } = useWeb3Modal();
+  const { address } = useAccount();
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline">Connect Wallet</Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle className=" flex items-center gap-4 justify-center">
-            <Wallet />
-            Choose Wallet and Connect
-          </DialogTitle>
-        </DialogHeader>
-        <ul style={{ paddingTop: "20px", paddingBottom: "40px" }}>
-          {connectors.slice(1).map((connector: Connector, idx) => (
-            <>
-              <Separator color="red" />
-              <li
-                key={connector.uid}
-                onClick={() => connect({ connector })}
-                className="w-full p-4 text-center hover:text-background"
-                style={{ cursor: "pointer" }}
-              >
-                {connector.name}
-              </li>
-            </>
-          ))}
-          <Separator />
-        </ul>
-
-        <DialogFooter className=" w-full">
-          <Button
-            type="submit"
-            variant="ghost"
-            className=" w-full"
-            style={{ borderTopRightRadius: 0, borderTopLeftRadius: 0 }}
-          >
-            Close
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    <React.Fragment>
+      {address ? (
+        <Button
+          onClick={() => open()}
+          className=" flex items-center rounded-[20px]"
+          style={{ gap: "0.5rem" }}
+        >
+          <Logo />
+          <span>{addressShortener(address, 4)}</span>
+        </Button>
+      ) : (
+        <Button className=" rounded-[20px]" onClick={() => open()}>
+          Connect Wallet
+        </Button>
+      )}
+    </React.Fragment>
   );
-};
-
-export default WalletModal;
+}
