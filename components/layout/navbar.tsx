@@ -1,5 +1,6 @@
 import ThemeSwitcher from "@/lib/theme";
 import ConnectButton from "@/lib/wagmi/wallet-modal";
+import { BadgePlus } from "lucide-react";
 import Link from "next/link";
 
 const Navbar = () => {
@@ -10,6 +11,9 @@ const Navbar = () => {
       </Link>
 
       <div className=" flex items-center gap-4">
+        <Link href="/create">
+          <BadgePlus size={20} />
+        </Link>
         <ThemeSwitcher />
         <ConnectButton />
       </div>

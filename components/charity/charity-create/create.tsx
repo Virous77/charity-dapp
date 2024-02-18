@@ -6,22 +6,47 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@radix-ui/react-label";
 import { useState } from "react";
 import zod from "zod";
-const Create = () => {
-  const schema = zod.object({
-    name: zod.string().min(2),
-    userName: zod.string().min(2),
-    amount: zod.number().gt(0),
-    social: zod.string().url(),
-    description: zod.string().min(50),
-  });
+import Upload from "./upload";
+import { useToast } from "@/components/ui/use-toast";
 
+const MAX_FILE_SIZE = 5000000;
+const ACCEPTED_IMAGE_TYPES = [
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/svg+xml",
+];
+
+const imageValidate = zod.object({
+  image: zod
+    .any()
+    .refine((file) => file?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
+    .refine(
+      (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
+      "Only .jpg, .jpeg, .png and .svg formats are supported."
+    ),
+});
+
+const schema = zod.object({
+  name: zod.string().min(2),
+  userName: zod.string().min(2),
+  amount: zod.number().gt(0),
+  social: zod.string().url(),
+  description: zod.string().min(50),
+});
+
+export type TForm = zod.infer<typeof schema>;
+
+const Create = () => {
   const [form, setForm] = useState({
     name: "",
     userName: "",
     amount: 0,
     social: "",
     description: "",
+    image: null as any,
   });
+  const { toast } = useToast();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -36,9 +61,25 @@ const Create = () => {
   const handleSubmit = () => {
     try {
       const data = schema.parse(form);
-      console.log(data);
-    } catch (error) {
+      if (!form.image) throw new Error("Image is required.");
+      const image = imageValidate.parse({ image: form.image });
+    } catch (error: any) {
       console.log(error);
+      if (error instanceof zod.ZodError) {
+        const message = error.errors[0].message;
+        const isUrl = message.includes("url");
+        toast({
+          title: `${error.errors[0].path[0]} ${
+            isUrl ? message : message.slice(6)
+          }`,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: error.message || "Something went wrong, Try again later.",
+          variant: "destructive",
+        });
+      }
     }
   };
 
@@ -48,7 +89,7 @@ const Create = () => {
         Create Charity
       </h1>
 
-      <div className=" mt-4 p-4 bg-muted shadow-md rounded-md">
+      <div className=" mt-4 p-4 bg-muted shadow-md rounded-md grid custom-grid-create gap-3 items-start">
         <form
           onSubmit={(e) => e.preventDefault()}
           className=" w-full flex flex-col gap-5 "
@@ -69,7 +110,7 @@ const Create = () => {
 
             <fieldset className=" w-full flex flex-col gap-2">
               <Label htmlFor="userName" className=" font-bold">
-                User Name
+                Your Name
               </Label>
               <Input
                 type="text"
@@ -125,6 +166,10 @@ const Create = () => {
             Create
           </Button>
         </form>
+
+        <div className=" w-full">
+          <Upload setForm={setForm} />
+        </div>
       </div>
     </section>
   );
