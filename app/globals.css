@@ -62,9 +62,18 @@
   grid-template-columns: 2fr 1fr;
 }
 
+.custom-grid-create {
+  grid-template-columns: 2fr 1fr;
+}
+
 @media (max-width: 768px) {
   .custom-grid {
     grid-template-columns: 1fr;
+  }
+
+  .custom-grid-create {
+    display: flex;
+    flex-direction: column-reverse;
   }
 }
 
