@@ -1,3 +1,5 @@
+"use client";
+
 import EthLogo from "@/components/common/eth-logo";
 import {
   Card,
@@ -5,20 +7,50 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { addressShortener, charity } from "@/utils/utils";
 import Image from "next/image";
 import CharityRaised from "./charity-raised";
-import { HandCoins } from "lucide-react";
 import Donate from "./donate";
+import { abi, address } from "@/constant/constant";
+import { useReadContract } from "wagmi";
+import { ICharity, ICharitySupport } from "@/interfaces/interfaces";
+import SupportList from "./support-list";
+import { useMemo } from "react";
 
-const CharityDetails = () => {
+const CharityDetails = ({ id }: { id: string }) => {
+  const { data, isLoading } = useReadContract({
+    functionName: "getCharity",
+    abi,
+    address,
+    args: [Number(id)],
+  }) as { data: ICharity; isLoading: boolean };
+
+  const {
+    data: supports,
+    isLoading: loading,
+    refetch,
+  } = useReadContract({
+    functionName: "getSupports",
+    abi,
+    address,
+    args: [Number(id)],
+  }) as { data: ICharitySupport[]; isLoading: boolean; refetch: () => void };
+
+  const sortedSupports = useMemo(() => {
+    if (!supports) return [];
+    return supports
+      .sort((a, b) => Number(b.timestamp) - Number(a.timestamp))
+      .slice(0, 3);
+  }, [supports]);
+
+  if (isLoading) return <p>Loading...</p>;
+
   return (
     <section>
       <div className=" grid custom-grid gap-2">
         <div>
           <Image
-            src={charity[0].image}
-            alt="test"
+            src={data.image}
+            alt={data.name}
             className=" w-full h-full rounded-lg"
             width={0}
             height={0}
@@ -28,45 +60,41 @@ const CharityDetails = () => {
         <div>
           <Card className="p-2">
             <CardHeader className=" p-0">
-              <h1 className=" text-2xl font-bold font-mono">
-                {charity[0].name}
+              <h1 className=" text-2xl font-bold font-mono capitalize">
+                {data.name}
               </h1>
 
               <p className=" font-sans font-bold mt-2 text-lg flex items-center gap-1">
                 <EthLogo />
-                {charity[0].totalFunds} ETH
+                {data.amount.toString()} ETH
               </p>
             </CardHeader>
             <CardContent className=" p-0">
-              <CharityRaised />
+              <CharityRaised
+                amount={data.amount.toString()}
+                raised={data.raised.toString()}
+              />
 
               <div>
                 <h2 className=" text-xl font-bold font-sans mt-5">
                   Description
                 </h2>
-                <p className=" text-sm  mt-1">{charity[0].description}</p>
+                <p className=" text-sm  mt-1">{data.description}</p>
               </div>
 
               <div>
                 <h2 className="text-xl font-bold font-sans mt-5">
                   Top Donation
                 </h2>
-                <div className=" flex items-center gap-2 mt-2">
-                  <span className="w-[35px] h-[35px] rounded-full bg-muted flex items-center justify-center">
-                    <HandCoins />
-                  </span>
-
-                  <div className=" flex flex-col">
-                    <b className=" text-sm  mt-1">
-                      {addressShortener("OXOTRT54GH85VD43VGGG445", 4)}
-                    </b>
-                    <span className="text-sm">3 ETH</span>
-                  </div>
-                </div>
+                <ul className=" flex flex-col">
+                  {sortedSupports.map((support) => (
+                    <SupportList key={support.id.toString()} {...support} />
+                  ))}
+                </ul>
               </div>
             </CardContent>
             <CardFooter className=" p-0 mt-7 ">
-              <Donate />
+              <Donate id={+id} refetch={refetch} />
             </CardFooter>
           </Card>
         </div>
