@@ -12,6 +12,7 @@ const CharityList: React.FC<ICharity> = ({
   image,
   amount,
   donations,
+  id,
 }) => {
   return (
     <Card className=" p-2  w-full md:w-[310px]">
@@ -45,7 +46,7 @@ const CharityList: React.FC<ICharity> = ({
       </CardContent>
       <CardFooter className=" p-0 mt-3 w-full ">
         <Link
-          href="/charity/name"
+          href={`/charity/${id}/${name.split(" ").join("-")}`}
           className=" w-full bg-primary text-center p-[6px] text-background hover:opacity-90 rounded"
         >
           Donate

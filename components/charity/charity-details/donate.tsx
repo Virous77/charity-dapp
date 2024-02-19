@@ -8,35 +8,60 @@ import { DialogTrigger } from "@radix-ui/react-dialog";
 import { useState } from "react";
 import zod from "zod";
 import { useToast } from "@/components/ui/use-toast";
+import { useWriteContract } from "wagmi";
+import { abi, address } from "@/constant/constant";
+import { parseEther } from "viem";
 
-const Donate = () => {
-  const schema = zod.object({
-    name: zod.string(),
-    say: zod.string(),
-    amount: zod.number().gt(0),
-  });
+const schema = zod.object({
+  name: zod.string(),
+  say: zod.string(),
+  amount: zod.number().gt(0),
+});
 
-  const [formData, setFomData] = useState({
-    name: "",
-    say: "",
-    amount: 0.03,
-  });
+const initialState = {
+  name: "",
+  say: "",
+  amount: "",
+};
 
+const Donate = ({ id, refetch }: { id: number; refetch: () => void }) => {
+  const [formData, setFomData] = useState(initialState);
+  const { writeContractAsync, isPending } = useWriteContract();
   const { toast } = useToast();
+  const [open, setOpen] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFomData({ ...formData, [name]: name === "amount" ? +value : value });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     try {
       const data = schema.parse(formData);
-      console.log(data);
+      await writeContractAsync({
+        address,
+        abi,
+        functionName: "donate",
+        args: [id, data.name || "_", data.say || "_"],
+        gas: BigInt(3000000),
+        value: parseEther(data.amount.toString()),
+      });
+      setOpen(false);
+      setFomData(initialState);
+      toast({
+        title: "Donation successful",
+      });
+      refetch();
     } catch (error) {
+      console.log(error);
       if (error instanceof zod.ZodError) {
         toast({
           title: "Amount must be greater than 0",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "An error occurred",
           variant: "destructive",
         });
       }
@@ -44,7 +69,7 @@ const Donate = () => {
   };
 
   return (
-    <Dialog>
+    <Dialog onOpenChange={setOpen} open={open}>
       <DialogTrigger asChild>
         <Button className=" w-full !h-[50px] !rounded-[30px]">Donate</Button>
       </DialogTrigger>
@@ -88,7 +113,7 @@ const Donate = () => {
           </fieldset>
 
           <Button type="submit" onClick={handleSubmit} className=" !h-[50px]">
-            Donate
+            {isPending ? "Loading..." : "Donate"}
           </Button>
         </form>
 
