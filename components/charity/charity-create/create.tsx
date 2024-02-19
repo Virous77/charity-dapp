@@ -8,6 +8,9 @@ import { useState } from "react";
 import zod from "zod";
 import Upload from "./upload";
 import { useToast } from "@/components/ui/use-toast";
+import { useWriteContract } from "wagmi";
+import pinFileToIPFS from "@/lib/pinata/pinata";
+import { address, abi } from "@/constant/constant";
 
 const MAX_FILE_SIZE = 5000000;
 const ACCEPTED_IMAGE_TYPES = [
@@ -37,16 +40,20 @@ const schema = zod.object({
 
 export type TForm = zod.infer<typeof schema>;
 
+const initialForm = {
+  name: "",
+  userName: "",
+  amount: "",
+  social: "",
+  description: "",
+  image: null as any,
+};
+
 const Create = () => {
-  const [form, setForm] = useState({
-    name: "",
-    userName: "",
-    amount: 0,
-    social: "",
-    description: "",
-    image: null as any,
-  });
+  const [form, setForm] = useState(initialForm);
   const { toast } = useToast();
+  const { writeContractAsync } = useWriteContract();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -58,13 +65,44 @@ const Create = () => {
     });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     try {
       const data = schema.parse(form);
       if (!form.image) throw new Error("Image is required.");
-      const image = imageValidate.parse({ image: form.image });
+      const image = imageValidate.parse({ image: form.image }) as {
+        image: File;
+      };
+
+      setIsLoading(true);
+      const resImage = await pinFileToIPFS(image.image);
+      if (!resImage || !resImage.IpfsHash)
+        throw new Error("Image upload failed.");
+      const pinImage = `https://gateway.pinata.cloud/ipfs/${resImage.IpfsHash}`;
+      const result = await writeContractAsync({
+        address,
+        abi,
+        functionName: "createCharity",
+        args: [
+          data.name,
+          data.userName,
+          data.social,
+          data.description,
+          pinImage,
+          data.amount,
+        ],
+        gas: BigInt(3000000),
+      });
+      setIsLoading(false);
+      if (result) {
+        setForm(initialForm);
+        toast({
+          title: "Charity created successfully.",
+        });
+      } else {
+        throw new Error("Failed to create charity. Try again later.");
+      }
     } catch (error: any) {
-      console.log(error);
+      setIsLoading(false);
       if (error instanceof zod.ZodError) {
         const message = error.errors[0].message;
         const isUrl = message.includes("url");
@@ -163,7 +201,7 @@ const Create = () => {
           </fieldset>
 
           <Button type="submit" className="w-full" onClick={handleSubmit}>
-            Create
+            {isLoading ? "Creating..." : "Create"}
           </Button>
         </form>
 

@@ -4,21 +4,14 @@ import EthLogo from "../common/eth-logo";
 import { Users } from "lucide-react";
 import { Separator } from "../ui/separator";
 import Link from "next/link";
+import { ICharity } from "@/interfaces/interfaces";
 
-type CharityListProps = {
-  name: string;
-  description: string;
-  image: string;
-  totalFunds: number;
-  totalDonations: number;
-};
-
-const CharityList: React.FC<CharityListProps> = ({
+const CharityList: React.FC<ICharity> = ({
   name,
   description,
   image,
-  totalDonations,
-  totalFunds,
+  amount,
+  donations,
 }) => {
   return (
     <Card className=" p-2  w-full md:w-[310px]">
@@ -38,7 +31,7 @@ const CharityList: React.FC<CharityListProps> = ({
         <div className=" flex items-center gap-4 mt-2">
           <p className=" font-bold font-sans text-lg mt-2 flex items-center gap-1">
             <EthLogo />
-            {totalFunds} ETH
+            {amount.toString()} ETH
           </p>
           <Separator
             orientation="vertical"
@@ -46,7 +39,7 @@ const CharityList: React.FC<CharityListProps> = ({
           />
           <p className=" font-bold  text-lg mt-2 font-sans flex items-center gap-2">
             <Users size={20} />
-            {totalDonations} Donations
+            {donations.toString()} Donations
           </p>
         </div>
       </CardContent>

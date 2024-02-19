@@ -1,6 +1,7 @@
 import { defaultWagmiConfig } from "@web3modal/wagmi/react/config";
 import { cookieStorage, createStorage } from "wagmi";
 import { sepolia } from "wagmi/chains";
+import { walletConnect } from "wagmi/connectors";
 
 export const projectId = process.env.NEXT_PUBLIC_PROJECT_ID;
 
@@ -21,4 +22,5 @@ export const config = defaultWagmiConfig({
   storage: createStorage({
     storage: cookieStorage,
   }),
+  connectors: [walletConnect({ projectId })],
 });
