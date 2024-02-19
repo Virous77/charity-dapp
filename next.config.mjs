@@ -12,6 +12,11 @@ const nextConfig = {
         hostname: "cdn.pixabay.com",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "gateway.pinata.cloud",
+        port: "",
+      },
     ],
   },
 };

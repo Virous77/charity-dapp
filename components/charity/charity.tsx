@@ -1,17 +1,17 @@
 "use client";
 
-import { charity } from "@/utils/utils";
 import CharityList from "./charity-list";
 import { useReadContract } from "wagmi";
 import { abi, address } from "@/constant/constant";
 import SkeletonCard from "../common/skeleton";
+import { ICharity } from "@/interfaces/interfaces";
 
 const Charity = () => {
   const { data, isLoading } = useReadContract({
     functionName: "getCharities",
     abi,
     address,
-  });
+  }) as { data: ICharity[]; isLoading: boolean };
 
   return (
     <section>
@@ -19,7 +19,7 @@ const Charity = () => {
         <SkeletonCard />
       ) : (
         <div className="  flex items-center flex-wrap gap-4">
-          {charity.map((charity, idx) => (
+          {data.map((charity, idx) => (
             <CharityList key={idx} {...charity} />
           ))}
         </div>

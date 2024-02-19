@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const JWT = process.env.PINATA_SECRET_API_KE;
+const JWT = process.env.NEXT_PUBLIC_PINATA_SECRET_API_KEY;
 
 const pinFileToIPFS = async (image: File) => {
   const formData = new FormData();
