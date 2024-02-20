@@ -11,6 +11,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useWriteContract } from "wagmi";
 import pinFileToIPFS from "@/lib/pinata/pinata";
 import { address, abi } from "@/constant/constant";
+import { parseEther } from "viem";
 
 const MAX_FILE_SIZE = 5000000;
 const ACCEPTED_IMAGE_TYPES = [
@@ -88,7 +89,7 @@ const Create = () => {
           data.social,
           data.description,
           pinImage,
-          data.amount,
+          parseEther(data.amount.toString()),
         ],
         gas: BigInt(3000000),
       });

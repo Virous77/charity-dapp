@@ -1,4 +1,5 @@
-export const address = "0xb2A545f8B9Df443D7D24a590A3cE9F51C60F515e";
+// export const address = "0xb2A545f8B9Df443D7D24a590A3cE9F51C60F515e";
+export const address = "0x6E11B0f68bA667232Cad75520c6a09Fa6c43CFd2";
 
 export const abi = [
   {
@@ -60,12 +61,12 @@ export const abi = [
       },
       {
         internalType: "string",
-        name: "fullname",
+        name: "userName",
         type: "string",
       },
       {
         internalType: "string",
-        name: "profile",
+        name: "social",
         type: "string",
       },
       {
@@ -111,7 +112,7 @@ export const abi = [
       },
       {
         internalType: "string",
-        name: "fullname",
+        name: "userName",
         type: "string",
       },
       {
@@ -342,12 +343,12 @@ export const abi = [
       },
       {
         internalType: "string",
-        name: "fullname",
+        name: "userName",
         type: "string",
       },
       {
         internalType: "string",
-        name: "profile",
+        name: "social",
         type: "string",
       },
       {
@@ -465,7 +466,7 @@ export const abi = [
           },
           {
             internalType: "string",
-            name: "fullname",
+            name: "userName",
             type: "string",
           },
           {
@@ -480,7 +481,7 @@ export const abi = [
           },
           {
             internalType: "string",
-            name: "profile",
+            name: "social",
             type: "string",
           },
           {
@@ -514,7 +515,7 @@ export const abi = [
             type: "bool",
           },
         ],
-        internalType: "struct DappFund.CharityStruct[]",
+        internalType: "struct CharityFund.CharityStruct[]",
         name: "Charities",
         type: "tuple[]",
       },
@@ -551,7 +552,7 @@ export const abi = [
           },
           {
             internalType: "string",
-            name: "fullname",
+            name: "userName",
             type: "string",
           },
           {
@@ -566,7 +567,7 @@ export const abi = [
           },
           {
             internalType: "string",
-            name: "profile",
+            name: "social",
             type: "string",
           },
           {
@@ -600,7 +601,7 @@ export const abi = [
             type: "bool",
           },
         ],
-        internalType: "struct DappFund.CharityStruct",
+        internalType: "struct CharityFund.CharityStruct",
         name: "",
         type: "tuple",
       },
@@ -631,7 +632,7 @@ export const abi = [
           },
           {
             internalType: "string",
-            name: "fullname",
+            name: "userName",
             type: "string",
           },
           {
@@ -646,7 +647,7 @@ export const abi = [
           },
           {
             internalType: "string",
-            name: "profile",
+            name: "social",
             type: "string",
           },
           {
@@ -680,7 +681,7 @@ export const abi = [
             type: "bool",
           },
         ],
-        internalType: "struct DappFund.CharityStruct[]",
+        internalType: "struct CharityFund.CharityStruct[]",
         name: "Charities",
         type: "tuple[]",
       },
@@ -731,7 +732,7 @@ export const abi = [
           },
           {
             internalType: "string",
-            name: "fullname",
+            name: "userName",
             type: "string",
           },
           {
@@ -755,7 +756,7 @@ export const abi = [
             type: "address",
           },
         ],
-        internalType: "struct DappFund.SupportStruct[]",
+        internalType: "struct CharityFund.SupportStruct[]",
         name: "",
         type: "tuple[]",
       },

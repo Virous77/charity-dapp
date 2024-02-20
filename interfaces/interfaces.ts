@@ -5,11 +5,11 @@ export interface ICharity {
   description: string;
   donations: BigInt;
   id: BigInt;
-  fullName: string;
+  userName: string;
   image: string;
   name: string;
   owner: string;
-  profile: string;
+  social: string;
   raised: BigInt;
   timestamp: BigInt;
 }
@@ -21,5 +21,5 @@ export interface ICharitySupport {
   supporter: string;
   timestamp: number;
   comment: string;
-  fullname: string;
+  userName: string;
 }
