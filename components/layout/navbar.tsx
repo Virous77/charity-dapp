@@ -11,7 +11,7 @@ const Navbar = () => {
       </Link>
 
       <div className=" flex items-center gap-4">
-        <Link href="/create">
+        <Link href="/create?edit=false">
           <BadgePlus size={20} />
         </Link>
         <ThemeSwitcher />

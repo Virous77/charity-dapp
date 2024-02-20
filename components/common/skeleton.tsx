@@ -1,5 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import React from "react";
+import { Card } from "../ui/card";
 
 const SkeletonCard = () => {
   const count = Array.from({ length: 3 }, (_, i) => i);
@@ -30,3 +31,35 @@ const SkeletonCard = () => {
 };
 
 export default SkeletonCard;
+
+export const SkeletonCharityDetails = () => {
+  return (
+    <div className="grid custom-grid gap-2">
+      <div>
+        <Skeleton className="h-[400px] w-full rounded-lg" />
+      </div>
+      <Card className="p-2">
+        <Skeleton className="h-10 w-[80%]" />
+        <Skeleton className="h-6 w-[30%] mt-3" />
+        <div className=" flex  gap-2 mt-4 flex-col">
+          <Skeleton className="h-4 w-[70%]" />
+          <Skeleton className="h-4 w-[45%]" />
+          <Skeleton className="h-4 w-[60%]" />
+          <Skeleton className="h-4 w-[55%]" />
+        </div>
+        <div className=" mt-4">
+          <Skeleton className="h-5 w-full rounded-lg" />
+          <div className=" flex items-center justify-between mt-2">
+            <Skeleton className="h-4 w-[30%]" />
+            <Skeleton className="h-4 w-[30%]" />
+          </div>
+        </div>
+
+        <div className=" mt-4">
+          <Skeleton className="h-8 w-[50%] rounded-lg" />
+          <Skeleton className="h-14 w-full rounded-full mt-6" />
+        </div>
+      </Card>
+    </div>
+  );
+};
