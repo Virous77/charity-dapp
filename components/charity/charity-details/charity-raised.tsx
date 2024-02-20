@@ -25,7 +25,7 @@ const CharityRaised = ({
 
         <p className=" text-xs font-sans  font-bold flex items-center gap-1">
           <EthLogo size="15" />
-          {amount} target
+          {weiToEth(+amount)} target
         </p>
       </div>
     </div>

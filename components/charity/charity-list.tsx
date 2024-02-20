@@ -5,6 +5,7 @@ import { Users } from "lucide-react";
 import { Separator } from "../ui/separator";
 import Link from "next/link";
 import { ICharity } from "@/interfaces/interfaces";
+import { truncateAfter100Words, weiToEth } from "@/utils/utils";
 
 const CharityList: React.FC<ICharity> = ({
   name,
@@ -14,6 +15,7 @@ const CharityList: React.FC<ICharity> = ({
   donations,
   id,
 }) => {
+
   return (
     <Card className=" p-2  w-full md:w-[310px]">
       <CardHeader className=" p-0">
@@ -28,11 +30,13 @@ const CharityList: React.FC<ICharity> = ({
 
       <CardContent className=" p-0 mt-2">
         <h2 className=" font-bold font-mono text-xl">{name}</h2>
-        <p className=" text-sm leading-5 mt-1">{description}</p>
+        <p className=" text-sm leading-5 mt-1">
+          {truncateAfter100Words(description)}
+        </p>
         <div className=" flex items-center gap-4 mt-2">
           <p className=" font-bold font-sans text-lg mt-2 flex items-center gap-1">
             <EthLogo />
-            {amount.toString()} ETH
+            {weiToEth(Number(amount))} ETH
           </p>
           <Separator
             orientation="vertical"
