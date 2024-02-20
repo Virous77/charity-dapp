@@ -1,13 +1,14 @@
-/* eslint-disable @next/next/no-img-element */
 import { Trash2 } from "lucide-react";
-import React, { useState } from "react";
+import Image from "next/image";
+import React from "react";
 
 type TUpload = {
   setForm: React.Dispatch<React.SetStateAction<any>>;
+  setImage: React.Dispatch<React.SetStateAction<string | null>>;
+  image: string | null;
 };
 
-const Upload: React.FC<TUpload> = ({ setForm }) => {
-  const [image, setImage] = useState<string | null>(null);
+const Upload: React.FC<TUpload> = ({ setForm, setImage, image }) => {
   return (
     <div className="flex items-center justify-center w-full">
       {!image ? (
@@ -51,9 +52,12 @@ const Upload: React.FC<TUpload> = ({ setForm }) => {
         </label>
       ) : (
         <div className=" w-full relative">
-          <img
+          <Image
             src={image}
             alt="upload"
+            width={300}
+            height={200}
+            sizes="100vw"
             className="w-full h-64  rounded-lg bg-background"
           />
           <Trash2

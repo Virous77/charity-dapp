@@ -10,6 +10,7 @@ import { ICharity, ICharitySupport } from "@/interfaces/interfaces";
 import { useMemo } from "react";
 import Support from "./support";
 import CharityMetadata from "./charity-metadata";
+import { SkeletonCharityDetails } from "@/components/common/skeleton";
 
 const CharityDetails = ({ id }: { id: string }) => {
   const { data, isLoading } = useReadContract({
@@ -37,43 +38,45 @@ const CharityDetails = ({ id }: { id: string }) => {
       .slice(0, 3);
   }, [supports]);
 
-  if (isLoading) return <p>Loading...</p>;
-
   return (
     <section>
-      <div className=" grid custom-grid gap-2">
-        <div className=" max-h-[400px]">
-          <Image
-            src={data.image}
-            alt={data.name}
-            className=" w-full h-full rounded-lg"
-            width={0}
-            height={0}
-            sizes="100%"
-          />
-        </div>
-        <div>
-          <Card className="p-2">
-            <CharityMetadata data={data} />
-            <CardContent className=" p-0">
-              <CharityRaised
-                amount={data.amount.toString()}
-                raised={data.raised.toString()}
-              />
+      {isLoading ? (
+        <SkeletonCharityDetails />
+      ) : (
+        <div className=" grid custom-grid gap-2">
+          <div className=" max-h-[400px]">
+            <Image
+              src={data.image}
+              alt={data.name}
+              className=" w-full h-full rounded-lg"
+              width={0}
+              height={0}
+              sizes="100%"
+            />
+          </div>
+          <div>
+            <Card className="p-2">
+              <CharityMetadata data={data} />
+              <CardContent className=" p-0">
+                <CharityRaised
+                  amount={data.amount.toString()}
+                  raised={data.raised.toString()}
+                />
 
-              <Support loading={loading} sortedSupports={sortedSupports} />
-            </CardContent>
-            <CardFooter className=" p-0 mt-7 ">
-              <Donate id={+id} refetch={refetch} />
-            </CardFooter>
-          </Card>
+                <Support loading={loading} sortedSupports={sortedSupports} />
+              </CardContent>
+              <CardFooter className=" p-0 mt-7 ">
+                <Donate id={+id} refetch={refetch} />
+              </CardFooter>
+            </Card>
+          </div>
         </div>
-      </div>
+      )}
 
       <div>
         <div>
           <h2 className=" text-xl font-bold font-sans mt-5">Description</h2>
-          <p className=" text-sm  mt-1">{data.description}</p>
+          <p className=" text-sm  mt-1">{data?.description}</p>
         </div>
       </div>
     </section>
