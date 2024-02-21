@@ -75,7 +75,7 @@ export const commonMetaData = ({
   url: string;
 }) => {
   return {
-    metadataBase: new URL("https://charity-next.vercel.app"),
+    metadataBase: new URL("https://charity-next-dapp.vercel.app"),
     title: name,
     description: desc,
     authors: [
@@ -91,14 +91,14 @@ export const commonMetaData = ({
     },
     robots: "index, follow",
     alternates: {
-      canonical: `https://charity-next.vercel.app${url}`,
+      canonical: `https://charity-next-dapp.vercel.app${url}`,
       languages: {
         "en-US": "/",
       },
     },
     openGraph: {
       type: "website",
-      url: `https://charity-next.vercel.app${url}`,
+      url: `https://charity-next-dapp.vercel.app${url}`,
       title: name,
       description: desc,
       siteName: "Charity",

@@ -11,7 +11,7 @@ const metadata = {
   name: "Charity",
   description:
     "Charity platform makes raising funds to easy and transparent using blockchain.",
-  url: "https://charity-next.vercel.app",
+  url: "https://charity-next-dapp.vercel.app",
   icons: [
     "https://res.cloudinary.com/dw6wav4jg/image/upload/v1708533691/android-chrome-512x512_lmq9mv.png",
   ],
