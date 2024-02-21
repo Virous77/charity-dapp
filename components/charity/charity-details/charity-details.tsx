@@ -11,6 +11,7 @@ import { useMemo } from "react";
 import Support from "./support";
 import CharityMetadata from "./charity-metadata";
 import { SkeletonCharityDetails } from "@/components/common/skeleton";
+import AllDonations from "./all-donations";
 
 const CharityDetails = ({ id }: { id: string }) => {
   const { data, isLoading } = useReadContract({
@@ -20,11 +21,7 @@ const CharityDetails = ({ id }: { id: string }) => {
     args: [Number(id)],
   }) as { data: ICharity; isLoading: boolean };
 
-  const {
-    data: supports,
-    isLoading: loading,
-    refetch,
-  } = useReadContract({
+  const { data: supports, isLoading: loading } = useReadContract({
     functionName: "getSupports",
     abi,
     address,
@@ -34,7 +31,7 @@ const CharityDetails = ({ id }: { id: string }) => {
   const sortedSupports = useMemo(() => {
     if (!supports) return [];
     return supports
-      .sort((a, b) => Number(b.timestamp) - Number(a.timestamp))
+      .sort((a, b) => Number(b.amount) - Number(a.amount))
       .slice(0, 3);
   }, [supports]);
 
@@ -44,7 +41,7 @@ const CharityDetails = ({ id }: { id: string }) => {
         <SkeletonCharityDetails />
       ) : (
         <div className=" grid custom-grid gap-2">
-          <div className=" max-h-[400px]">
+          <div className=" h-full">
             <Image
               src={data.image}
               alt={data.name}
@@ -66,7 +63,7 @@ const CharityDetails = ({ id }: { id: string }) => {
                 <Support loading={loading} sortedSupports={sortedSupports} />
               </CardContent>
               <CardFooter className=" p-0 mt-7 ">
-                <Donate id={+id} refetch={refetch} />
+                <Donate id={+id} />
               </CardFooter>
             </Card>
           </div>
@@ -78,6 +75,8 @@ const CharityDetails = ({ id }: { id: string }) => {
           <h2 className=" text-xl font-bold font-sans mt-5">Description</h2>
           <p className=" text-sm  mt-1">{data?.description}</p>
         </div>
+
+        <AllDonations loading={loading} supports={supports} />
       </div>
     </section>
   );

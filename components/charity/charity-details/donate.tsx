@@ -24,7 +24,7 @@ const initialState = {
   amount: "",
 };
 
-const Donate = ({ id, refetch }: { id: number; refetch: () => void }) => {
+const Donate = ({ id }: { id: number }) => {
   const [formData, setFomData] = useState(initialState);
   const { writeContractAsync, isPending } = useWriteContract();
   const { toast } = useToast();
@@ -51,7 +51,6 @@ const Donate = ({ id, refetch }: { id: number; refetch: () => void }) => {
       toast({
         title: "Donation successful",
       });
-      refetch();
     } catch (error) {
       console.log(error);
       if (error instanceof zod.ZodError) {
