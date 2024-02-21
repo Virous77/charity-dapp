@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import ThemeProvider from "@/lib/theme-provider";
@@ -9,13 +8,22 @@ import { cookieToInitialState } from "wagmi";
 import { config } from "@/lib/wagmi/config";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/common/footer";
+import { commonMetaData } from "@/utils/utils";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "Web3 Charity",
-  description: "Always be giving back to the community.",
-};
+export async function generateMetadata() {
+  const metaData = commonMetaData({
+    name: "Charity",
+    desc: "Always be giving back to the community. Charity is key. Charity makes it easy for you to get started and be full transparent with your donors. Wagmi",
+    image:
+      "https://res.cloudinary.com/dw6wav4jg/image/upload/v1708533691/android-chrome-512x512_lmq9mv.png",
+    url: "/",
+  });
+  return {
+    ...metaData,
+  };
+}
 
 export const initialState = () => {
   return cookieToInitialState(config, headers().get("cookie"));

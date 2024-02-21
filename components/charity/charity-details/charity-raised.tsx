@@ -12,11 +12,13 @@ const CharityRaised = ({
   amount: string;
   raised: string;
 }) => {
-  const [progress] = useState((weiToEth(+raised) / Number(amount)) * 100);
+  const [progress] = useState(
+    weiToEth(Number(raised) / weiToEth(Number(amount))) * 100
+  );
 
   return (
     <div className=" mt-5 w-full">
-      <Progress value={progress} />
+      <Progress value={progress} max={weiToEth(Number(amount))} />
       <div className=" flex items-center justify-between mt-2">
         <p className=" text-xs font-sans  font-bold flex items-center gap-1">
           <EthLogo size="15" />
