@@ -9,9 +9,9 @@ type TAllDonations = {
 
 const AllDonations: React.FC<TAllDonations> = ({ loading, supports }) => {
   const sortedSupports = useMemo(() => {
-    if (!supports && !loading) return [];
+    if (!supports) return [];
     return supports.sort((a, b) => Number(b.timestamp) - Number(a.timestamp));
-  }, [supports, loading]);
+  }, [supports]);
 
   return (
     <div>

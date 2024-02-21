@@ -8,10 +8,13 @@ export const projectId = process.env.NEXT_PUBLIC_PROJECT_ID;
 if (!projectId) throw new Error("Project ID is not defined");
 
 const metadata = {
-  name: "Web3Modal",
-  description: "Web3Modal Example",
-  url: "https://web3modal.com",
-  icons: ["https://avatars.githubusercontent.com/u/37784886"],
+  name: "Charity",
+  description:
+    "Charity platform makes raising funds to easy and transparent using blockchain.",
+  url: "https://charity-next.vercel.app",
+  icons: [
+    "https://res.cloudinary.com/dw6wav4jg/image/upload/v1708533691/android-chrome-512x512_lmq9mv.png",
+  ],
 };
 
 export const config = defaultWagmiConfig({
