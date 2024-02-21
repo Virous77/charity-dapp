@@ -1,5 +1,7 @@
 import Create from "@/components/charity/charity-create/create";
 import { commonMetaData } from "@/utils/utils";
+import { initialState } from "../layout";
+import { redirect } from "next/navigation";
 
 export async function generateMetadata() {
   const metaData = commonMetaData({
@@ -15,6 +17,10 @@ export async function generateMetadata() {
 }
 
 const CharityCreate = () => {
+  const data = initialState();
+
+  if (!data?.current) return redirect("/");
+
   return (
     <main className="max-w-[992px] m-auto mt-[90px] p-4">
       <Create />

@@ -22,10 +22,12 @@ const SupportList = ({
 
       <div className=" flex flex-col">
         <b className=" text-sm  mt-1 capitalize">
-          {userName ? userName : addressShortener(supporter, 4)}
+          {userName !== "_" ? userName : addressShortener(supporter, 4)}
         </b>
         <span className="text-sm ">{weiToEth(Number(amount))} ETH</span>
-        {comment && isAllDonation && <p className=" opacity-70 ">{comment}</p>}
+        {comment !== "_" && isAllDonation && (
+          <p className=" opacity-70 ">{comment}</p>
+        )}
       </div>
     </li>
   );

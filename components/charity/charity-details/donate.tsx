@@ -11,6 +11,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useWriteContract } from "wagmi";
 import { abi, address } from "@/constant/constant";
 import { parseEther } from "viem";
+import { useAccount } from "wagmi";
 
 const schema = zod.object({
   name: zod.string(),
@@ -29,6 +30,7 @@ const Donate = ({ id }: { id: number }) => {
   const { writeContractAsync, isPending } = useWriteContract();
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
+  const { address } = useAccount();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -37,6 +39,14 @@ const Donate = ({ id }: { id: number }) => {
 
   const handleSubmit = async () => {
     try {
+      if (!address) {
+        toast({
+          title: "Connect wallet to donate",
+          variant: "destructive",
+        });
+        return;
+      }
+
       const data = schema.parse(formData);
       await writeContractAsync({
         address,
