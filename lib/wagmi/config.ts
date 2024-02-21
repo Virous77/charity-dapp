@@ -22,10 +22,12 @@ export const config = defaultWagmiConfig({
   projectId,
   metadata,
   ssr: true,
+
   enableWalletConnect: true,
   storage: createStorage({
     storage: cookieStorage,
   }),
   connectors: [walletConnect({ projectId })],
   transports: { [sepolia.id]: http() },
+  syncConnectedChain: true,
 });

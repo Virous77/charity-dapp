@@ -25,9 +25,17 @@ const Support: React.FC<TSupport> = ({
           </p>
         </div>
       ) : (
-        <ul className=" flex flex-col">
+        <ul
+          className={`flex flex-col ${
+            isAllDonation && "max-h-[300px] overflow-y-scroll"
+          }`}
+        >
           {sortedSupports.map((support) => (
-            <SupportList key={support.id.toString()} {...support} isAllDonation={isAllDonation} />
+            <SupportList
+              key={support.id.toString()}
+              {...support}
+              isAllDonation={isAllDonation}
+            />
           ))}
         </ul>
       )}
