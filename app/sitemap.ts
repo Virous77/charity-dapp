@@ -1,5 +1,5 @@
 export default async function sitemap() {
-  const URL = "https://charity-next.vercel.app";
+  const URL = "https://charity-next-dapp.vercel.app/";
 
   const restUrls = [
     {
