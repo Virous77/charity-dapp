@@ -1,12 +1,13 @@
 import Image from "next/image";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 import EthLogo from "../common/eth-logo";
-import { FilePenLine, Users } from "lucide-react";
+import { Users } from "lucide-react";
 import { Separator } from "../ui/separator";
 import Link from "next/link";
 import { ICharity } from "@/interfaces/interfaces";
 import { truncateAfter100Words, weiToEth } from "@/utils/utils";
 import { useAccount } from "wagmi";
+import CharityPopover from "./charity-popover";
 
 type TCharityList = {
   charity: ICharity;
@@ -26,11 +27,7 @@ const CharityList: React.FC<TCharityList> = ({ charity }) => {
           className=" rounded-tl-[5px] rounded-tr-[5px] w-full"
         />
         {address?.toLowerCase() === charity.owner.toLowerCase() && (
-          <div className=" bg-primary w-[30px] h-[30px] rounded-full absolute top-1 right-2 flex items-center justify-center cursor-pointer hover:bg-accent">
-            <Link href={`/create?edit=true&id=${charity.id}`}>
-              <FilePenLine size={20} />
-            </Link>
-          </div>
+          <CharityPopover id={Number(charity.id)} />
         )}
       </CardHeader>
 
