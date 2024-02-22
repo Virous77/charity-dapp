@@ -1,5 +1,7 @@
 import Charity from "@/components/charity/charity";
 
+export const dynamic = "force-dynamic";
+
 const HomePage = () => {
   return (
     <main className=" max-w-[1240px] m-auto mt-[90px] p-4">

@@ -17,14 +17,15 @@ const CharityList: React.FC<TCharityList> = ({ charity }) => {
   const { address } = useAccount();
 
   return (
-    <Card className=" p-2  w-full md:w-[310px]">
+    <Card className=" p-2  w-full md:w-[310px] h-full">
       <CardHeader className=" p-0 relative">
         <Image
           src={charity.image}
-          width={300}
-          height={300}
+          width={0}
+          height={0}
+          sizes="100vw"
           alt={charity.name}
-          className=" rounded-tl-[5px] rounded-tr-[5px] w-full"
+          className=" rounded-tl-[5px] rounded-tr-[5px] h-[180px] w-full"
         />
         {address?.toLowerCase() === charity.owner.toLowerCase() && (
           <CharityPopover id={Number(charity.id)} />
@@ -32,7 +33,9 @@ const CharityList: React.FC<TCharityList> = ({ charity }) => {
       </CardHeader>
 
       <CardContent className=" p-0 mt-2">
-        <h2 className=" font-bold font-mono text-xl">{charity.name}</h2>
+        <h2 className=" font-bold font-mono text-xl  capitalize">
+          {charity.name}
+        </h2>
         <p className=" text-sm leading-5 mt-1">
           {truncateAfter100Words(charity.description)}
         </p>

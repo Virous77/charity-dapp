@@ -14,6 +14,9 @@ const Charity = () => {
     functionName: "getCharities",
     abi,
     address,
+    query: {
+      refetchIntervalInBackground: true,
+    },
   }) as { data: ICharity[]; isLoading: boolean };
 
   const sortedData = useMemo(() => {
@@ -35,7 +38,7 @@ const Charity = () => {
           {isLoading ? (
             <SkeletonCard />
           ) : (
-            <div className="  flex items-center flex-wrap gap-4 justify-center">
+            <div className="  flex items-start flex-wrap gap-4 justify-center">
               {sortedData.map((charity, idx) => (
                 <CharityList key={idx} charity={charity} />
               ))}

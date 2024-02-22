@@ -45,7 +45,7 @@ const CharityDetails = ({ id }: { id: string }) => {
             <Image
               src={data.image}
               alt={data.name}
-              className=" w-full h-full rounded-lg"
+              className=" w-full max-h-[530px] rounded-lg"
               width={0}
               height={0}
               sizes="100%"

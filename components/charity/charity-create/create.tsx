@@ -14,6 +14,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ICharity } from "@/interfaces/interfaces";
 import Image from "next/image";
 import waitImage from "../../../public/wait.svg";
+import { useQueryClient } from "@tanstack/react-query";
 
 const schema = zod.object({
   name: zod.string().min(2),
@@ -43,6 +44,7 @@ const Create = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathName = usePathname();
+  const queryClient = useQueryClient();
 
   const id = searchParams.get("id");
   const edit = searchParams.get("edit");
@@ -89,6 +91,7 @@ const Create = () => {
   const commonSuccess = (result: string) => {
     const type = edit && edit === "true" ? "updated" : "created";
     setIsLoading(false);
+    queryClient.invalidateQueries();
     if (result) {
       setForm(initialForm);
       setImage(null);
