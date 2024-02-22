@@ -30,7 +30,7 @@ const Donate = ({ id }: { id: number }) => {
   const { writeContractAsync, isPending } = useWriteContract();
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
-  const { address } = useAccount();
+  const { address: userAddress } = useAccount();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -39,7 +39,7 @@ const Donate = ({ id }: { id: number }) => {
 
   const handleSubmit = async () => {
     try {
-      if (!address) {
+      if (!userAddress) {
         toast({
           title: "Connect wallet to donate",
           variant: "destructive",
