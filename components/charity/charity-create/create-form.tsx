@@ -27,7 +27,7 @@ const CreateForm: React.FC<TCreateForm> = ({
       onSubmit={(e) => e.preventDefault()}
       className=" w-full flex flex-col gap-5 "
     >
-      <div className=" flex items-center justify-between gap-4 w-full">
+      <div className=" flex items-center justify-between gap-4 w-full flex-col md:flex-row mt-3 md:mt-0">
         <fieldset className=" w-full flex flex-col gap-2">
           <Label htmlFor="name" className=" font-bold">
             Charity Name
@@ -55,8 +55,8 @@ const CreateForm: React.FC<TCreateForm> = ({
         </fieldset>
       </div>
 
-      <div className=" flex items-center justify-between gap-4 w-full">
-        <fieldset className="flex flex-col gap-2 w-[40%]">
+      <div className=" flex md:items-center justify-between gap-4 w-full flex-col md:flex-row ">
+        <fieldset className="flex flex-col gap-2 w-[60%] md:w-[40%]">
           <Label htmlFor="amount" className=" font-bold">
             Amount in ETH
           </Label>
