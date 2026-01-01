@@ -4,7 +4,7 @@ import ThemeProvider from "@/lib/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import WagmiProviderComp from "@/lib/wagmi/wagmi-provider";
 import { headers } from "next/headers";
-import { cookieToInitialState } from "wagmi";
+import { cookieToInitialState, State } from "wagmi";
 import { config } from "@/lib/wagmi/config";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/common/footer";
@@ -25,15 +25,17 @@ export async function generateMetadata() {
   };
 }
 
-export const initialState = () => {
-  return cookieToInitialState(config, headers().get("cookie"));
+export const initialState = async (): Promise<State> => {
+  const h = await headers();
+  return cookieToInitialState(config, h.get("cookie")) as State;
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const state = await initialState();
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
@@ -43,7 +45,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <WagmiProviderComp initialState={initialState()}>
+          <WagmiProviderComp initialState={state}>
             <Navbar />
             {children}
             <Toaster />

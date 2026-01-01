@@ -16,8 +16,8 @@ export async function generateMetadata() {
   };
 }
 
-const CharityCreate = () => {
-  const data = initialState();
+const CharityCreate = async () => {
+  const data = await initialState();
 
   if (!data?.current) return redirect("/");
 
